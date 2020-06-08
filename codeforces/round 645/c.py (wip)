@@ -1,0 +1,23 @@
+def task(x1, y1, x2, y2):
+    a = x2 - x1
+    b = y2 - y1
+
+    if a == 0 or b == 0:
+        print(1)
+        return
+
+    suma = 0
+    last1 = 0
+    last2 = 1
+    for i in range(0, a + b):
+        suma = last1 + last2
+        last1 = last2
+        last2 = suma
+
+    print(suma)
+
+
+t = int(input())
+for i in range(0, t):
+    x1, y1, x2, y2 = map(int, input().split())
+    task(x1, y1, x2, y2)

@@ -1,0 +1,50 @@
+def task(h, c, t):
+    b = 0
+    total = 0
+    cups = 0
+    for i in range(0, 10):
+        total += h
+        cups += 1
+        print(cups, i, total / cups)
+        total += c
+        cups += 1
+        print(cups, i, total / cups)
+
+    print(h, c, t)
+    return
+
+    if h == t:
+        print(1)
+        return
+    elif (h + c) // 2 == t:
+        print(2)
+        return
+
+    turn = h + c
+    total = h
+    cups = 1
+    diff = abs(h - t)
+
+    while True:
+        total += turn
+        cups += 2
+        avg = total / cups
+        newdiff = abs(t - avg)
+
+        if newdiff == 0:
+            break
+        elif newdiff > diff:
+            cups -= 2
+            break
+
+        diff = newdiff
+        print(cups, diff)
+
+    print(cups)
+
+
+t = int(input())
+for i in range(0, t):
+    a = []
+    h, c, t = map(int, input().split())
+    task(h, c, t)

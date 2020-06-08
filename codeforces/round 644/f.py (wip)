@@ -1,0 +1,45 @@
+def task(n, m, a):
+    result = a[0]
+
+    globalChange = False
+    for i in range(1, n):
+        localChange = False
+        for j in range(0, m):
+            if result[j] != a[i][j]:
+                c1 = (ord(result[j]) - 97) % 26
+                c2 = (ord(a[i][j]) - 97) % 26
+                diff = min((c1 - c2) % 26, (c2 - c1) % 26)
+
+                if diff == 1:
+                    if localChange:
+                        if globalChange:
+                            print(-1)
+                            return
+                        else:
+                            result = result[0:j] + a[i][j] + result[j+1:]
+                            globalChange = True
+                    else:
+                        localChange = True
+                elif diff == 2:
+                    if localChange or globalChange:
+                        print(-1)
+                        return
+                    else:
+                        c = chr(97 + ((c1 + c2) // 2))
+                        result = result[0:j] + c + result[j+1:]
+                        localChange = True
+                        globalChange = True
+                else:
+                    print(-1)
+                    return
+
+    print(result)
+
+
+t = int(input())
+for i in range(0, t):
+    a = []
+    n, m = map(int, input().split())
+    for j in range(0, n):
+        a.append(input())
+    task(n, m, a)

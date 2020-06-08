@@ -1,0 +1,20 @@
+import math
+
+
+def task(a, b, h, m):
+    dhangle = 360 - (h * 360 / 12) + 90
+    dmangle = 360 - (m * 360 / 60) + 90
+    hangle = math.radians(dhangle)
+    mangle = math.radians(dmangle)
+    x1 = a * math.cos(hangle)
+    y1 = a * math.sin(hangle)
+    x2 = b * math.cos(mangle)
+    y2 = b * math.sin(mangle)
+    d1 = x1 - x2
+    d2 = y1 - y2
+    result = math.sqrt(pow(d1, 2) + pow(d2, 2))
+    print(result)
+
+
+a, b, h, m = map(int, input().split())
+task(a, b, h, m)

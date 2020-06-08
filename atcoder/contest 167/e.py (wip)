@@ -1,0 +1,24 @@
+def comb(fact, n, k):
+    return fact[n] // (fact[k] * fact[n - k])
+
+
+def task(n, m, k):
+    total = 0
+    fact = [1]
+    modulus = 998244353
+
+    for i in range(1, n):
+        fact[i] = (fact[i - 1] * i) % modulus
+
+    print('done1')
+
+    for i in range(0, k + 1):
+        c = comb(fact, n - 1, i)
+        total += c * m * pow(m - 1, n - 1 - i, modulus)
+        total %= modulus
+        print(total)
+    print(total)
+
+
+n, m, k = map(int, input().split())
+task(n, m, k)

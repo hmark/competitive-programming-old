@@ -1,0 +1,99 @@
+import math
+
+
+def task(n, k, s):
+    states = []
+    for i in range(0, k):
+        states.append([0, 0])
+
+    for i in range(0, n):
+        state = i % k
+        states[state][s[i]] += 1
+
+    best = 25000
+    for i in range(0, k):
+        cnt = 0
+
+        for j in range(0, k):
+            if i != j:
+                cnt += states[j][1]
+
+        zeros = 0
+        ones = 0
+
+        for j in range(0, (n // k) + 1):
+            index = i + (j * k)
+
+            if index >= n:
+                continue
+
+            if s[index] == 0 and ones > 1:
+                zeros += 1
+            elif s[index] == 1:
+                ones += 1
+
+        if ones > 0:
+            if cnt + ones - 1 < best:
+                best = cnt + ones - 1
+        else:
+            if cnt < best:
+                best = cnt
+
+        zeros = 0
+        ones = 0
+        onesinrow = 0
+        fromleft = []
+        last = 25000
+        for j in range(0, (n // k) + 1):
+            index = i + (j * k)
+
+            if index >= n:
+                continue
+
+            if s[index] == 0:
+                onesinrow = 0
+                zeros += 1
+                last = max(0, min(last, ones - 1, zeros))
+                fromleft.append(last)
+            elif s[index] == 1:
+                last = min(ones - onesinrow, zeros)
+                fromleft.append(last)
+                onesinrow += 1
+                ones += 1
+
+        zeros = 0
+        ones = 0
+        onesinrow = 0
+        fromright = []
+        last = 25000
+        for j in reversed(range(0, (n // k) + 1)):
+            index = i + (j * k)
+
+            if index >= n:
+                continue
+
+            if s[index] == 0:
+                onesinrow = 0
+                zeros += 1
+                last = max(0, min(last, ones - 1, zeros))
+                fromright.append(last)
+            elif s[index] == 1:
+                last = max(0, min(ones - onesinrow, zeros))
+                fromright.append(last)
+                onesinrow += 1
+                ones += 1
+
+        fromright.reverse()
+
+        for j in range(0, len(fromleft)):
+            if cnt + fromleft[j] + fromright[j] < best:
+                best = cnt + fromleft[j] + fromright[j]
+
+    print(best)
+
+
+t = int(input())
+for i in range(0, t):
+    n, k = map(int, input().split())
+    s = [int(c) for c in input()]
+    task(n, k, s)

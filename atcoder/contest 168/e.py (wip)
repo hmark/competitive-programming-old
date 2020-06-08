@@ -1,0 +1,45 @@
+def task(n, a, b):
+    table = {}
+    a0 = 0
+    b0 = 0
+    for i in range(0, n):
+        t = (a[i], b[i])
+        if not t in table:
+            table[t] = 0
+        table[t] += 1
+
+        if a[i] == 0:
+            a0 += 1
+        if b[i] == 0:
+            b0 += 1
+
+    ans = 0
+
+    for i in range(0, n):
+        if a[i] == 0 and b[i] == 0:
+            continue
+        elif a[i] == 0:
+            ans += (n - b0) / 2
+        elif b[i] == 0:
+            ans += (n - a0) / 2
+        else:
+            ans += 1
+            t1 = (b[i], -a[i])
+            t2 = (-b[i], a[i])
+            ans += (n - 1) / 2
+
+            if t1 in table:
+                ans -= table[t1] / 2
+            if t2 in table:
+                ans -= table[t2] / 2
+    print(ans)
+
+
+n = int(input())
+a = []
+b = []
+for i in range(0, n):
+    aa, bb = map(int, input().split())
+    a.append(aa)
+    b.append(bb)
+task(n, a, b)
